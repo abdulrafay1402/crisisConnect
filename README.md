@@ -34,12 +34,6 @@
 
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Status-Active-success?style=flat-square" />
-  <img src="https://img.shields.io/badge/License-Educational-DC143C?style=flat-square" />
-  <img src="https://img.shields.io/badge/Built%20With-Love-DC143C?style=flat-square" />
-</p>
-
 ---
 
 Disaster response and emergency management platform combining Node.js/Express backend, React/Vite frontend, and Microsoft SQL Server. Supports role-based workflows for citizens, rescue teams, NGOs, and administrators with real-time coordination and resource management.
