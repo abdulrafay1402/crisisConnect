@@ -1,0 +1,21 @@
+# Dependencies
+/backend/node_modules/
+/frontend/node_modules/
+
+# Build and test output
+/backend/coverage/
+/frontend/dist/
+
+# Runtime uploads
+/backend/uploads/*
+
+# Secrets and local env files
+/.env
+/backend/.env
+/frontend/.env
+*.local
+
+# Logs and OS noise
+*.log
+.DS_Store
+Thumbs.db

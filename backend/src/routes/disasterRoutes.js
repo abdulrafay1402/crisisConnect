@@ -1,0 +1,36 @@
+const express = require('express');
+const router = express.Router();
+const { verifyToken, authorize, optionalAuth } = require('../middleware/auth');
+const c = require('../controllers/disasterController');
+const { uploadDisasterPhotos } = require('../middleware/upload');
+
+router.get('/', optionalAuth, c.getAllDisasters);
+router.get('/active', c.getActiveDisasters);
+router.get('/stats', verifyToken, c.getDisasterStats);
+router.get('/my-reports', verifyToken, c.getByReporter);
+router.get('/assigned/team/:teamId', verifyToken, c.getAssignedDisastersForTeam);
+router.get('/assigned/team', verifyToken, c.getAssignedDisastersForTeam);
+router.get('/assigned/ngo/:ngoId', verifyToken, c.getAssignedDisastersForNGO);
+router.get('/assigned/ngo', verifyToken, c.getAssignedDisastersForNGO);
+router.get('/type/:type', c.getByType);
+router.get('/severity/:severity', c.getBySeverity);
+router.get('/status/:status', c.getByStatus);
+router.get('/:id', c.getDisasterById);
+router.post('/', verifyToken, authorize('Citizen', 'Admin'), c.createDisaster);
+router.put('/:id', verifyToken, authorize('Admin'), c.updateDisaster);
+router.delete('/:id', verifyToken, authorize('Admin'), c.deleteDisaster);
+router.put('/:id/assign-team', verifyToken, authorize('Admin'), c.assignTeam);
+router.put('/:id/assign-ngo', verifyToken, authorize('Admin'), c.assignNGO);
+router.get('/:id/assignments', verifyToken, c.getDisasterAssignments);
+router.post('/:id/assignments/teams', verifyToken, authorize('Admin'), c.addTeamAssignment);
+router.delete('/:id/assignments/teams/:teamId', verifyToken, authorize('Admin'), c.removeTeamAssignment);
+router.post('/:id/assignments/ngos', verifyToken, authorize('Admin'), c.addNGOAssignment);
+router.delete('/:id/assignments/ngos/:ngoId', verifyToken, authorize('Admin'), c.removeNGOAssignment);
+router.put('/:id/resolve', verifyToken, authorize('Admin'), c.resolveDisaster);
+router.put('/:id/status', verifyToken, authorize('Admin'), c.updateStatus);
+router.post('/:id/photos', verifyToken, authorize('Citizen', 'Admin'), uploadDisasterPhotos.array('photos', 5), c.uploadDisasterPhotos);
+router.get('/:id/photos', verifyToken, c.getDisasterPhotos);
+router.get('/:id/updates', verifyToken, c.getDisasterUpdates);
+router.post('/:id/updates', verifyToken, authorize('RescueTeam', 'NGO'), c.postDisasterUpdate);
+
+module.exports = router;
